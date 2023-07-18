@@ -3,25 +3,22 @@ name: Create and Initialize New Repository
 on:
   workflow_dispatch:
     inputs:
-      repo_name:
-        description: 'Enter a new repo name'
+      env:
+        description: 'Enter a deploy env name'
         required: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      TEMPLATE_REPO_NAME: test-terraform-actions
-      NEW_REPO_NAME: test-terraform-${{ github.event.inputs.repo_name }}
-
     steps:
-    - name: Checkout template repository
+    - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        repository: sskyh0208/test-terraform-actions
 
-    - name: Push to new repository
+    - name: Set up Docker Compose environment
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
       run: |
-        cd $GITHUB_WORKSPACE
-        git push --mirror https://github.com/sskyh0208/test-terraform-${{ github.event.inputs.repo_name }}.git
+        make init
