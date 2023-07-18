@@ -19,9 +19,9 @@ jobs:
     - name: Checkout template repository
       uses: actions/checkout@v2
       with:
-        repository: sskyh0208/$TEMPLATE_REPO_NAME
+        repository: sskyh0208/test-terraform-actions
 
     - name: Push to new repository
       run: |
         cd $GITHUB_WORKSPACE
-        git push --mirror https://github.com/sskyh0208/$NEW_REPO_NAME.git
+        git push --mirror https://github.com/sskyh0208/test-terraform-${{ github.event.inputs.repo_name }}.git
