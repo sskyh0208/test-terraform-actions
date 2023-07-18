@@ -14,11 +14,12 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
+    - name: Create .env file
+      run: |
+        echo "AWS_ACCESS_KEY_ID=xxxx" >> .env
+        echo "AWS_SECRET_ACCESS_KEY=xxxx" >> .env
+        echo "AWS_DEFAULT_REGION=ap-northeast-1" >> .env
 
-    - name: Set up Docker Compose environment
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+    - name: Build and run Docker Compose
       run: |
         make init
