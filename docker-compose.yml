@@ -1,0 +1,14 @@
+version: '3'
+services:
+  tellambda:
+    container_name: tellambda
+    build:
+      context: ./dockerfile
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ./src
+        target: /terraform
+    env_file:
+      - .env
+    tty: true
