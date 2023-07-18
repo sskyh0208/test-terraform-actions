@@ -1,0 +1,26 @@
+name: Create and Initialize New Repository
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Enter a new repo name'
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      TEMPLATE_REPO_NAME: test-terraform-actions
+      NEW_REPO_NAME: test-terraform-${{ github.event.inputs.repo_name }}
+
+    steps:
+    - name: Clone template source
+      uses: git clone --bare git@github.com:sskyh0208/$TEMPLATE_REPO_NAME.git $TEMPLATE_REPO_NAME
+
+    - name: Change to template source directory
+      run: cd $TEMPLATE_REPO_NAME
+
+    - name: Push to new repository
+      run: git push --mirror https://github.com/sskyh0208/$NEW_REPO_NAME.git
